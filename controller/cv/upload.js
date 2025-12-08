@@ -75,7 +75,7 @@ export const removeCandidateCV = async (req, res) => {
 
     // Cập nhật lên DB
     const updateResult = await CandidateRepository.updateCandidate(email, {
-      CV: cvList,
+      rmCV: cvList,
     });
 
     if (!updateResult.success) {
