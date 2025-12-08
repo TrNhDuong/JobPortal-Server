@@ -62,7 +62,7 @@ export const removeCandidateCV = async (req, res) => {
 
     // Chuẩn hóa về mảng
     let cvList = candidate.CV || [];
-    cvList.filter(cv => cv.public_id !== cvPublicId)
+    cvList = cvList.filter(cv => cv.public_id !== cvPublicId)
     // Xóa trên Cloudinary CHỈ 1 LẦN
     const result = await destroyCloudData(cvPublicId);
 
