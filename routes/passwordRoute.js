@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import { CandidateRepository } from "../repository/candidateRepository.js";
 import { EmployerRepository } from "../repository/employerRepository.js";
+import { forgotCandidatePassword, forgotEmployerPassword } from "../controller/password/resetPassword.js";
 
 const Router = express.Router();
 
@@ -72,4 +73,6 @@ Router.post("/password/employer", async (req, res) => {
     }
 })
 
+Router.post("/password/candidate/forgot", forgotCandidatePassword);
+Router.post("/password/employer/forgot", forgotEmployerPassword);
 export default Router;

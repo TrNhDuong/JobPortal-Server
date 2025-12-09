@@ -68,7 +68,7 @@ export class CandidateRepository {
         }
 
         if (updatesCandidate["CV"]){
-            if (candidate.data.CV.length > 3){
+            if (candidate.data.CV.length === 3){
                 return {
                     success: false,
                     message: "Number of CVs get limited"
