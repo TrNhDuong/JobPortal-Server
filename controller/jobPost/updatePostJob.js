@@ -112,7 +112,7 @@ export const removeApplyJob = async (req, res) => {
 
 export const extendJobExpiry = async (req, res) => {
     const id = req.query.jobId;
-    
+    const email = req.query.email;
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({
             success: false,
@@ -121,10 +121,10 @@ export const extendJobExpiry = async (req, res) => {
     }
     
     const jobId = new mongoose.Types.ObjectId(id);
-    const { email, expireDay, point } = req.body;
+    const { expireDay, point } = req.body;
     
     try {
-        const jobPost = await JobRepository.findById(jobId);
+        const jobPost = await JobRepository.getJobPost(jobId);
         if (!jobPost.success) {
             return res.status(404).json({
                 success: false,
@@ -152,6 +152,8 @@ export const extendJobExpiry = async (req, res) => {
         return res.status(500).json({ message: "Internal server error during validation." });
     }
 
+    console.log('_-----_')
+    console.log(point, expireDay, email, jobId)
     // 3. Thực hiện giao dịch (Transaction) để đảm bảo tính nguyên tử (Atomicity)
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -159,8 +161,9 @@ export const extendJobExpiry = async (req, res) => {
     try {
         const employerData = (await EmployerRepository.getEmployer(email)).data;
         const newPoint = employerData.point - point;
+        console.log(newPoint)
         const updateEmployerResult = await EmployerRepository.updateEmployer(
-            { "email": email },
+            email,
             { "point": newPoint },
             { session } // Truyền session vào để thao tác nằm trong transaction
         );

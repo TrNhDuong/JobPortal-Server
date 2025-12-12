@@ -68,7 +68,7 @@ const jobPost = new mongoose.Schema({
     state: {    // State of the job post: open, closed, pending
         type: String,
         required: true,
-        enum: ['Open', 'Closed'],
+        enum: ['Open', 'Closed', 'Pending'],
         default: 'Closed',
     },
     expireDay: {
@@ -109,7 +109,7 @@ jobPost.statics.closeExpiredJobs = async function() {
 
         const result = await this.updateMany(
             { state: 'Open', expireDay: { $lte: today } },
-            { $set: { state: 'Closed' } }
+            { $set: { state: 'Pending' } }
         );
 
         console.log(`[JobPost] ${result.modifiedCount} job(s) đã được đóng tự động.`);

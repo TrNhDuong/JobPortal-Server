@@ -1,4 +1,5 @@
 import { JobRepository } from "../../repository/jobRepository.js";
+import { EmployerRepository } from "../../repository/employerRepository.js";
 import mongoose from "mongoose";
 
 export const getJobPostByID = async (req, res) => {
@@ -55,6 +56,36 @@ export const getPostJobPerPage = async (req, res) => {
         }
     } catch (error) {
 
+    }
+}
+
+export const getAllEmployerJobPost = async (req, res) => {
+    const email = req.query.email;
+    try {
+        const employerData = await EmployerRepository.getEmployer(email);
+        if (!employerData.success){
+            return res.status(404).json({
+                success: false,
+                message: `Employer not found`
+            })
+        }
+        const jobListId = employerData.data.jobPosted;
+        const jobList = [];
+        for (const jobId of jobListId){
+            const jobData = await JobRepository.getJobPost(jobId);
+            if (jobData.success){
+                jobList.push(jobData.data);
+            }
+        }
+        return res.status(200).json({
+            success: true,
+            data: jobList
+        })
+    } catch ( error){
+        res.status(500).json({ 
+            success: false,
+            message: "Internal server error"
+        });
     }
 }
 
