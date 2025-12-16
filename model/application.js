@@ -7,13 +7,18 @@ const applicationSchema = new mongoose.Schema(
       ref: 'Candidate',
       required: true,
     },
+    contactEmail: {
+      type: String,
+      required: true,
+    },
     jobId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'JobPost',
       required: true,
     },
     CV_url: {
-      url: String,
+      type: String,
+      required: true,
     },
     appliedDate: {
       type: Date,
@@ -24,8 +29,7 @@ const applicationSchema = new mongoose.Schema(
       default: 'New',
       enum: ['New', 'Viewed', 'Interviewing', 'Rejected', 'Hired'],
     },
-  },
-  { timestamps: true }
+  }
 );
 
 // Không tạo index cho jobId hoặc candidateId để tránh chi phí bảo trì

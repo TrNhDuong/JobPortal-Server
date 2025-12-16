@@ -59,7 +59,7 @@ export const updatePostJob = async (req, res) => {
 export const applyJob = async (req, res) => {
     const id = req.query.jobId;
     const jobId = new mongoose.Types.ObjectId(id);
-    const { email } = req.body;
+    const { email, cv_url } = req.body;
     try {
         const candidate = await CandidateRepository.getCandidate(email);
         if (!candidate.success) {
@@ -69,7 +69,7 @@ export const applyJob = async (req, res) => {
         if (!jobPost) {
           return res.status(404).json({ message: "Job post not found" });
         }
-        const result = await ApplicationRepository.createApplication(candidate.data._id, jobId);
+        const result = await ApplicationRepository.createApplication(candidate.data._id, email, jobId, cv_url);
         if (!result.success) {
           return res.status(500).json({ 
             success: false,

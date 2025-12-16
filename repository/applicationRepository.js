@@ -4,8 +4,8 @@ import Application from "../model/application.js";
 import { application } from "express";
 
 export class ApplicationRepository {
-    static async createApplication(candidateID, jobId) {
-        const newApplication = new Application({ candidateID, jobId, appliedDate: Date.now() });
+    static async createApplication(candidateID, contactEmail, jobId, CV_url) {
+        const newApplication = new Application({ candidateID, contactEmail, jobId, CV_url, appliedDate: Date.now() });
         await newApplication.save();
         const applicationCandidate = await CandidateRepository.getCandidateByID(candidateID);
         if (applicationCandidate.success) {
