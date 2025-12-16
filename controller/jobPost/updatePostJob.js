@@ -69,6 +69,7 @@ export const applyJob = async (req, res) => {
         if (!jobPost) {
           return res.status(404).json({ message: "Job post not found" });
         }
+        
         const result = await ApplicationRepository.createApplication(candidate.data._id, email, jobId, cv_url);
         if (!result.success) {
           return res.status(500).json({ 

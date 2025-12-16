@@ -5,19 +5,27 @@ import { application } from "express";
 
 export class ApplicationRepository {
     static async createApplication(candidateID, contactEmail, jobId, CV_url) {
-        const newApplication = new Application({ candidateID, contactEmail, jobId, CV_url, appliedDate: Date.now() });
+        const newApplication = new Application({ candidateId: candidateID, contactEmail, jobId, CV_url, appliedDate: Date.now() });
         await newApplication.save();
-        const applicationCandidate = await CandidateRepository.getCandidateByID(candidateID);
-        if (applicationCandidate.success) {
-            applicationCandidate.data.appliedJobs.push(jobId);
-            await applicationCandidate.data.save();
+
+        const candidateAppy = await CandidateRepository.getCandidateByID(candidateID);
+        if (candidateAppy.success) {
+            const result = await CandidateRepository.updateCandidate(candidateAppy.data.email, { apply: jobId });
+            if (!result.success){
+                console.error("Failed to update candidate with new applied job");
+                return { success: false, message: "Failed to update candidate with new applied job" };
+            }
         }
-        
         const applicationJobPost = await JobRepository.getJobPost(jobId);
         if (applicationJobPost.success) {
-            applicationJobPost.data.applicants.push(candidateID)
-            applicationJobPost.data.metric.newed += 1;
-            await applicationJobPost.data.save();
+            // applicationJobPost.data.applicants.push(candidateID)
+            // applicationJobPost.data.metric.newed += 1;
+            // await applicationJobPost.data.save();
+            const result = await JobRepository.updateJobPost(jobId, { addApplicants: candidateID });
+            if (!result.success){
+                console.error("Failed to update job post with new applicant");
+                return { success: false, message: "Failed to update job post with new applicant" };
+            }
         }
         return {
             success: true,

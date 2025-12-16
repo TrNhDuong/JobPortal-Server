@@ -73,6 +73,10 @@ export class JobRepository {
         for (const attribute of jobPostAtributes){
             updatedJobPost.data[attribute] = updates[attribute] || updatedJobPost.data[attribute];
         }
+        if (updates["addApplicants"]){
+            updatedJobPost.data.applicants.push(updates["addApplicants"]);
+            updatedJobPost.data.metric.newed += 1;
+        }
         await JobPost.findByIdAndUpdate(jobId, updatedJobPost.data);
         return { success: true, message: "Job post updated successfully" };
     }
