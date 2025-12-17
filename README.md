@@ -205,4 +205,12 @@ Client nhận token từ server, lấy token = response.data.data với reponse 
 
 Client nhập mật khẩu mới, gửi tới server qua endpoint với header là token, api endpoint là api/password/reset/candidate, body gồm {email, password}
 
+## API endpoint phần ứng tuyển
+
+endpoint kiểm tra người dùng đã ứng tuyển 1 job hay chưa: api/application/exists
+
+Nội dung body gửi cho server gồm: candidateId, jobId
+
+Trả về success: true nếu đã ứng tuyển công việc này
+
 

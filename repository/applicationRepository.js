@@ -18,10 +18,7 @@ export class ApplicationRepository {
         }
         const applicationJobPost = await JobRepository.getJobPost(jobId);
         if (applicationJobPost.success) {
-            // applicationJobPost.data.applicants.push(candidateID)
-            // applicationJobPost.data.metric.newed += 1;
-            // await applicationJobPost.data.save();
-            const result = await JobRepository.updateJobPost(jobId, { addApplicants: candidateID });
+            const result = await JobRepository.updateJobPost(jobId, { addApplicants: newApplication._id });
             if (!result.success){
                 console.error("Failed to update job post with new applicant");
                 return { success: false, message: "Failed to update job post with new applicant" };
@@ -34,7 +31,28 @@ export class ApplicationRepository {
         };
     }
 
+    static async isApplicationExists(candidateId, jobId) {
+        try {
+            const exists = await Application.exists({
+                candidateId,
+                jobId
+            });
+
+            return {
+                success: true,
+                exists: !!exists
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.message
+            };
+        }
+    }
+
     static async getApplication(applicationId) {
+        console.log('Application ID in repository:')
+        console.log(applicationId)
         const application = await Application.findOne({ _id: applicationId });
         if (!application) {
             return { success: false, message: "Application not found" };

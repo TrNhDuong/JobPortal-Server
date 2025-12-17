@@ -32,7 +32,10 @@ const applicationSchema = new mongoose.Schema(
   }
 );
 
-// Không tạo index cho jobId hoặc candidateId để tránh chi phí bảo trì
+applicationSchema.index(
+    { candidateId: 1, jobId: 1 },
+    { unique: true }
+);
 
 const Application = mongoose.model('Application', applicationSchema);
 
