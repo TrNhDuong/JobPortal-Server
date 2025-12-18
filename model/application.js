@@ -27,7 +27,7 @@ const applicationSchema = new mongoose.Schema(
     label: {
       type: String,
       default: 'New',
-      enum: ['New', 'Viewed', 'Interviewing', 'Rejected', 'Hired'],
+      enum: ['New', 'Viewed', 'Shortlisted', 'Interviewing', 'Offered', 'Rejected', 'Hired'],
     },
   }
 );

@@ -86,15 +86,15 @@ const jobPost = new mongoose.Schema({
         }
     ],
     metric: {
-        newed: {
+        new: {
             type: Number,
             default: 0
         },
-        pass: {
+        interviewing: {
             type: Number,
             default: 0
         },
-        interviewed: {
+        hired: {
             type: Number,
             default: 0
         }

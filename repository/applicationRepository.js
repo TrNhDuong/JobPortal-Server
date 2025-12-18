@@ -62,34 +62,34 @@ export class ApplicationRepository {
 
     static async updateApplication(applicationId, jobId, label) {
         const updatedJobPost = await JobRepository.getJobPost(jobId);
+        console.log('Updated Job Post in updateApplication:');
         if (!updatedJobPost.success){
             return {
                 success: false,
                 message: 'JobId not valid'
             }
         }
-        const updatedApplication = await Application.getApplication(applicationId);
-        if (!updatedApplication.success){
+        console.log('--------------------------------');
+        const updatedApplication = await Application.findById(applicationId);
+        if (!updatedApplication){
             return {
                 success: false,
                 message: 'Application id not valid'
             }
         }
-        const oldLabel = updatedApplication.data.label;
-        if (oldLabel == 'New'){
-            updatedJobPost.data.metric.newed -= 1;
-        } else if (oldLabel == 'Pass'){
-            updatedJobPost.data.metric.pass -= 1;
-        } else if (oldLabel == 'Interviewed'){
-            updatedJobPost.data.metric.interviewed -= 1;
+        console.log('--------------------------------');
+        const oldLabel = updatedApplication.label;
+        console.log('Old Label:', oldLabel);
+        console.log('New Label:', label);
+        console.log('--------------------------------');
+        const updateJobResult = await JobRepository.updateJobPost(jobId, {"newLabel": label, "oldLabel": oldLabel });
+        if (!updateJobResult.success){
+            return {
+                success: false,
+                message: 'Failed to update job post metrics'
+            }
         }
-        if (label == 'New'){
-            updatedJobPost.data.metric.newed += 1;
-        } else if (label == 'Pass'){
-            updatedJobPost.data.metric.pass += 1;
-        } else if (label == 'Interviewed'){
-            updatedJobPost.data.metric.interviewed += 1;
-        }
+        console.log('--------------------------------');
         const result = await Application.findByIdAndUpdate(applicationId, { label: label }, { new: true });
         if (result){
             return {

@@ -75,7 +75,21 @@ export class JobRepository {
         }
         if (updates["addApplicants"]){
             updatedJobPost.data.applicants.push(updates["addApplicants"]);
-            updatedJobPost.data.metric.newed += 1;
+            updatedJobPost.data.metric.new += 1;
+        }
+        if (updates["newLabel"]){
+            const label = updates["newLabel"];
+            if (label === "Interviewing"){
+                updatedJobPost.data.metric.interviewing += 1;
+            } else if (label === "Hired"){
+                updatedJobPost.data.metric.hired += 1;
+            }
+            const oldLabel = updates["oldLabel"];
+            if (oldLabel === "Interviewing"){
+                updatedJobPost.data.metric.interviewing -= 1;
+            } else if (oldLabel === "New"){
+                updatedJobPost.data.metric.new -= 1;
+            }
         }
         await JobPost.findByIdAndUpdate(jobId, updatedJobPost.data);
         return { success: true, message: "Job post updated successfully" };
