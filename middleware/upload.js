@@ -29,13 +29,8 @@ export const createCVStorage = (folderPath) => {
         cloudinary,
         params: {
             folder: folderPath,
-            resource_type: "auto", // Để Cloudinary tự nhận diện PDF
+            resource_type: "raw",   // 🔥 BẮT BUỘC
             allowed_formats: ["pdf", "doc", "docx"],
-            // 🛑 CHÌA KHÓA: Ép quyền truy cập công khai và hiển thị inline
-            type: "upload", 
-            access_mode: "public",
-            flags: "attachment:false", // Tắt tính năng bắt tải về
-            content_disposition: "inline", // Ép trình duyệt mở trực tiếp
         }
     });
 };
