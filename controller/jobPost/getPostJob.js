@@ -1,5 +1,6 @@
 import { JobRepository } from "../../repository/jobRepository.js";
 import { EmployerRepository } from "../../repository/employerRepository.js";
+import { ApplicationRepository } from "../../repository/applicationRepository.js";
 import mongoose from "mongoose";
 import { JobPost } from "../../model/jobPost.js";
 export const getJobPostByID = async (req, res) => {
@@ -192,5 +193,51 @@ export const getAllEmployerJobPost = async (req, res) => {
             message: "Internal server error"
         });
     }
+}
+
+
+export const getAppliedJobsByCandidate = async (req, res) => {
+  const { candidateId, jobId } = req.query;
+	console.log('Received candidateId and jobId:', { candidateId, jobId });
+	  try {
+	    if (!candidateId || !jobId) {
+	      return res.status(400).json({
+	        success: false,
+	        message: "candidateId và jobId là bắt buộc",
+	      });
+	    }
+	
+	    // validate ObjectId
+	    if (
+	      !mongoose.Types.ObjectId.isValid(candidateId) ||
+	      !mongoose.Types.ObjectId.isValid(jobId)
+	    ) {
+	      return res.status(400).json({
+	        success: false,
+	        message: "candidateId hoặc jobId không hợp lệ",
+	      });
+	    }
+	
+	    const result = await ApplicationRepository.getByCandidateJob(candidateId, jobId);
+	
+	    if (!result.success) {
+	      return res.status(404).json({
+	        success: false,
+	        message: result.message || "Application not found",
+	      });
+	    }
+	
+	    return res.status(200).json({
+	      success: true,
+	      data: result.data,
+	    });
+	  } catch (error) {
+	    console.error(error);
+	    return res.status(500).json({
+	      success: false,
+	      message: "Error internal server",
+	    });
+	  }
+	;
 }
 

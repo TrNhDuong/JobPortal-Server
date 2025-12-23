@@ -213,4 +213,54 @@ Nội dung body gửi cho server gồm: candidateId, jobId
 
 Trả về success: true nếu đã ứng tuyển công việc này
 
+# API endpoint report
+
+---
+
+## 1️⃣ Create Report
+
+### **POST** `/report`
+
+Tạo một report mới cho một job post.
+
+### Request Body
+```json
+{
+  "reportedBy": "string",
+  "reason": "string",
+  "jobPostId": "string"
+}
+```
+
+| Field      | Type   | Required | Description               |
+| ---------- | ------ | -------- | ------------------------- |
+| reportedBy | string | ✅        | email người báo cáo |
+| reason     | string | ✅        | Lý do report              |
+| jobPostId  | string | ✅        | ID của JobPost bị report  |
+
+### Return data
+```json
+{
+  "success": "string",
+  "message": "string",
+}
+```
+
+### **GET** `/report?reportId=`
+
+trả về data là 1 id
+
+### **GET** `report/all`
+
+trả về danh sách mặc định là 50 job sort theo timestamp
+
+### **PATCH** `report`
+
+cập nhật report, với request body chứa data cập nhật
+
+### **DELETE** `report?reportId=`
+
+xóa job theo id
+
+
 

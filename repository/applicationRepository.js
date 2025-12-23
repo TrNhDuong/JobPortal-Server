@@ -132,4 +132,13 @@ export class ApplicationRepository {
             success: true, data: deletedApplication, message: "Application deleted successfully"
         };
     }
+    static async getByCandidateJob(candidateId, jobId) {
+        try {
+            const app = await Application.findOne({ candidateId, jobId });
+            if (!app) return { success: false, message: "Application not found" };
+            return { success: true, data: app };
+        } catch (e) {
+            return { success: false, message: "Repository error" };
+        }
+    }
 }

@@ -116,6 +116,8 @@ Router.get("/application/applicantinfo", async (req, res) => {
     }
 })
 
+import { getAppliedJobsByCandidate } from "../controller/jobPost/getPostJob.js";
 
+Router.get("/application/byCandidateJob", getAppliedJobsByCandidate);
 
 export default Router;

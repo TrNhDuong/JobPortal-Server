@@ -20,7 +20,8 @@ import passwordRoute from "./routes/passwordRoute.js";
 import applicationRoute from "./routes/applicationRoute.js";
 import imageRoute from "./routes/imageRoute.js";
 import cvRoute from "./routes/cvRoute.js";
-
+import mailRoute from "./routes/mailRoute.js";
+import reportRoute from "./routes/reportRoute.js";
 app.use("/api", candidateRoute);
 app.use("/api", employerRoute);
 app.use("/api", postJobRoute);
@@ -32,6 +33,9 @@ app.use("/api", passwordRoute);
 app.use("/api", applicationRoute);
 app.use("/api", imageRoute);
 app.use("/api", cvRoute);
+app.use("/api", mailRoute);
+app.use("/api", reportRoute);
+
 connectDB();
 app.listen(PORT, () => {
     if (process.env.RENDER === "true") {
