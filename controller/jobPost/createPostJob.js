@@ -68,7 +68,7 @@ export const createNewPostJob = async (req, res) => {
     const { 
         point,
         title, company, companyEmail, position, location, detailedAddress, minSalary, maxSalary, currency, 
-        logo, jobType, major, degree, customMajor, experience, description 
+        logo, jobType, major, degree, customMajor, experience, description, requirement, welfare
     } = req.body;
     
     // Khởi tạo biến expire ở scope lớn hơn để dùng cho jobData
@@ -107,7 +107,7 @@ export const createNewPostJob = async (req, res) => {
     // 3. Chuẩn bị dữ liệu Job (Sử dụng 'expire' đã tính)
     const jobData = {
         title, company, companyEmail, position, location, detailedAddress, jobType, major, degree, 
-        customMajor, logo, experience, description,
+        customMajor, logo, experience, description, requirement, welfare,
         state: "Open",
         // Gán giá trị 'expire' đã tính
         expireDay: expire, 

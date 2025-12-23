@@ -9,7 +9,7 @@ export const updatePostJob = async (req, res) => {
   const id = req.query.jobId;
   const jobId = new mongoose.Types.ObjectId(id);
   const {title, company, position, location, detailedAddress, maxSalary, minSalary, currency,
-        jobType, major, customMajor, degree, experience, state, description, expiredDay, postedAt } = req.body;
+        jobType, major, customMajor, degree, experience, state, description, requirement, welfare, expiredDay, postedAt } = req.body;
 
   try {
     const updateData = {
@@ -30,6 +30,8 @@ export const updatePostJob = async (req, res) => {
       "experience": experience,
       "state": state,
       "description": description,
+      "requirement": requirement,
+      "welfare": welfare,
       "postedAt": postedAt,
       "expiredDay": expiredDay
     }

@@ -103,6 +103,12 @@ const jobPost = new mongoose.Schema({
         type: String,
         required: true,
     },
+    requirement: {
+        type: String,
+    },
+    welfare: {
+        type: String,
+    }
 });
 
 // --- Static method để đóng job hết hạn ---
