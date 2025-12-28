@@ -127,6 +127,7 @@ export const extendJobExpiry = async (req, res) => {
     const { expireDay, point } = req.body;
     
     try {
+      console.log(jobId, expireDay, point);
         const jobPost = await JobRepository.getJobPost(jobId);
         if (!jobPost.success) {
             return res.status(404).json({
@@ -179,7 +180,9 @@ export const extendJobExpiry = async (req, res) => {
         // BƯỚC 2: Cập nhật ngày hết hạn của bài đăng
         const updateJobResult = await JobRepository.updateJobPost(
             jobId, 
-            { "expireDay": expireDay },
+            { "expireDay": expireDay,
+              "state": 'Open'
+             },
             { session } // Truyền session vào để thao tác nằm trong transaction
         );
         

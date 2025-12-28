@@ -22,6 +22,8 @@ import imageRoute from "./routes/imageRoute.js";
 import cvRoute from "./routes/cvRoute.js";
 import mailRoute from "./routes/mailRoute.js";
 import reportRoute from "./routes/reportRoute.js";
+import paymentRoute from "./routes/paymentRoute.js";
+
 app.use("/api", candidateRoute);
 app.use("/api", employerRoute);
 app.use("/api", postJobRoute);
@@ -35,6 +37,7 @@ app.use("/api", imageRoute);
 app.use("/api", cvRoute);
 app.use("/api", mailRoute);
 app.use("/api", reportRoute);
+app.use("/api", paymentRoute);
 
 connectDB();
 app.listen(PORT, () => {
