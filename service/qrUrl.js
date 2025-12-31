@@ -1,12 +1,12 @@
-export function generateVietQRUrl(amount, addInfo = "PURCHASE-POINT") {
+export function generateVietQRUrl(amount, email, addInfo = "PURCHASE-POINT") {
   const baseUrl = "https://img.vietqr.io/image";
   const bankCode = "vcb";
   const accountNumber = "1039500129";
   const accountName = "TRAN NHAT DUONG";
-
+  const info = addInfo + '-' + email;
   const params = new URLSearchParams({
     amount: amount.toString(),
-    addInfo: addInfo,
+    addInfo: info,
     accountName: accountName
   });
 
