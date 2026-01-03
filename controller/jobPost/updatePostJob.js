@@ -91,8 +91,6 @@ export const applyJob = async (req, res) => {
 };
 
 export const removeApplyJob = async (req, res) => {
-    const id = req.query.jobId;
-    const jobId = new mongoose.Types.ObjectId(id);
     const { email, applicationId } = req.body;
     try {
         const candidate = await CandidateRepository.getCandidate(email);
